@@ -6,11 +6,12 @@ var _ = require("underscore");
 // Render the home page.
 router.get('/', function(req, res)
 {
+    
     if (!req.user || req.user.status !== 'ENABLED')
     {
         return res.redirect('/login');
     }
-
+    
     studentInfo.initilize(function(err)
     {
 
@@ -20,11 +21,16 @@ router.get('/', function(req, res)
         var notStarted = [];
         var errors = [];
 
-        if(groups["complete"])
+        if(groups["complete"]){
             completed = groups["complete"];
+            //completed = _.sortBy(completed, function(student){return student.tags[1].time;});
+            completed = _.sortBy(completed, function(student){return student.durationMs;})
+        }
 
-        if(groups["running"])
+        if(groups["running"]){
             inProgress = groups["running"];
+            inProgress = _.sortBy(inProgress, function(student){return student.tags[0].time;});
+        }
 
         if(groups["Not Started"])
             notStarted = groups["Not Started"];

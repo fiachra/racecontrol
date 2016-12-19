@@ -18,8 +18,6 @@ router.get('/', function(req, res)
         user: req.user
     };
 
-    //console.log(JSON.stringify(data, null, 2));
-
     res.render('studentimport', data);
 });
 

@@ -24,7 +24,6 @@ router.get('/dashboard', function(req, res)
     
     studentInfo.initilize(function(err)
     {
-        console.log("HERE")
         res.render('dashboard',
         {
             title: 'Dashboard',

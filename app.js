@@ -16,6 +16,7 @@ var auth_routes = require('./routes/auth');
 var import_routes = require('./routes/import');
 var user_routes = require('./routes/users');
 var result_routes = require('./routes/results');
+var admin_routes = require('./routes/admin');
 
 var app = express();
 
@@ -51,6 +52,7 @@ app.use('/', auth_routes);
 app.use('/import', import_routes);
 app.use('/users', user_routes);
 app.use('/results',result_routes);
+app.use('/admin',admin_routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,0 +1,36 @@
+extends layout
+ 
+block body
+  h1.tableText Admin Tasks
+    table.fixed.tableProps(align="center")
+      thead
+        tr
+          th.tableText Task
+          th.tableText Perform
+          th.tableText Status
+      tbody
+        tr
+          td.tableText Reset Runners
+          td.tableText
+            a.btn.btn-default(href="/" id="resetRunners") Reset
+          td.tableText
+            p(id="resetRunnersStatus") Incomplete
+        tr
+          td.tableText Reset Tags
+          td.tableText
+            a.btn.btn-default(href="/" id="resetTags") Reset
+          td.tableText
+            p(id="resetTagsStatus") Incomplete
+        tr
+          td.tableText Reset Both
+          td.tableText
+            a.btn.btn-default(href="/" id="resetBoth") Reset
+          td.tableText
+            p(id="resetBothStatus") Incomplete
+        tr
+          td.tableText Create Fake Tags
+          td.tableText
+            a.btn.btn-default(href="/" id="createFake") Reset
+          td.tableText
+            p(id="createFakeStatus") Incomplete
+  script(src='/js/adminView.js')
