@@ -16,7 +16,7 @@ router.get('/', function(req, res, next)
 
     res.render('userlist',
     {
-        title: 'Home',
+        title: 'Runner List',
         user: req.user,
         classes: studentInfo.studentsByClass
     });
@@ -34,7 +34,7 @@ router.get('/raceTabards', function(req, res, next)
 
     res.render('pdflist',
     {
-        title: 'Home',
+        title: 'Race Tabards',
         user: req.user,
         tabardFiles: studentInfo.tabardFiles
     });
@@ -87,7 +87,7 @@ router.post('/raceTabards', function(req, res, next)
         {
             res.render('pdflist',
             {
-                title: 'Home',
+                title: 'Race Tabards',
                 user: req.user,
                 tabardFiles: studentInfo.tabardFiles
             });
@@ -118,7 +118,7 @@ router.get('/checkin/:racenumber', function(req, res)
             if (student !== undefined)
             {
                 var data = {
-                    title: 'Dashboard',
+                    title: 'Check-in',
                     user: req.user,
                     racenumber: req.params.racenumber,
                     student: student
@@ -132,7 +132,7 @@ router.get('/checkin/:racenumber', function(req, res)
             {
                 res.render('error',
                 {
-                    message: "No student with that name"
+                    message: "No student with that Number"
                 });
             }
 

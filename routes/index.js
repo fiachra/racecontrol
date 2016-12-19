@@ -16,16 +16,12 @@ router.get('/', function(req, res)
 // Render the dashboard page.
 router.get('/dashboard', function(req, res)
 {
-    /*
+    
     if (!req.user || req.user.status !== 'ENABLED')
     {
         return res.redirect('/login');
     }
-    */
     
-
-    //console.log(JSON.stringify(req.user, null, 2));
-
     studentInfo.initilize(function(err)
     {
         console.log("HERE")

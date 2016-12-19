@@ -133,3 +133,11 @@ table.fixed td {
     padding:15px;
     display:none;
 }
+
+a:hover { 
+    color: white;
+}
+
+a{
+  color: white !important;
+}

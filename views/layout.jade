@@ -4,7 +4,7 @@ html
     meta(charset='utf-8')
     meta(content='IE=edge', http-equiv='X-UA-Compatible')
     meta(content='width=device-width, initial-scale=1', name='viewport')
-    title= 'Express-Stormpath (sample) | ' + title
+    title= 'Confey College Race Control ' + title
     link(href='/css/bootstrap.min.css', rel='stylesheet')
     link(href='/css/style.css', rel='stylesheet')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js')
@@ -18,18 +18,20 @@ html
         ul.nav.nav-pills.pull-right
           li
             a(href='/') Home
-          li.dropdown
-            a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
-              | Runners 
-              span.caret
-            ul.dropdown-menu(role='menu')
-              li
-                a(href='/users') Runner Lists
-              li
-                a(href='/users/raceTabards') Race Tabards
           if user
             li
               a(href='/dashboard') Dashbaord
+            li.dropdown
+              a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+                | Runners 
+                span.caret
+              ul.dropdown-menu(role='menu')
+                li
+                  a(href='/users') Runner Lists
+                li
+                  a(href='/users/raceTabards') Race Tabards
+            li
+              a(href='/results') Results
             li
               a(href='/import') Import
             li

@@ -6,10 +6,13 @@ var _ = require("underscore");
 // Render the home page.
 router.get('/', function(req, res)
 {
+    if (!req.user || req.user.status !== 'ENABLED')
+    {
+        return res.redirect('/login');
+    }
 
     studentInfo.initilize(function(err)
     {
-        console.log("HERE")
 
         var groups = _.groupBy(studentInfo.students, function(student){return student.status});
         var completed = [];
@@ -30,7 +33,7 @@ router.get('/', function(req, res)
             errors = groups["Errors"];
 
 
-        res.render('resultsTest',
+        res.render('results',
         {
             title: 'Dashboard',
             user: req.user,

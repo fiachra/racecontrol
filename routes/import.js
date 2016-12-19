@@ -7,16 +7,14 @@ var dynamoFuncs = require('../lib/dynamo')
 
 router.get('/', function(req, res)
 {
-    /*
+
     if (!req.user || req.user.status !== 'ENABLED')
     {
         return res.redirect('/login');
     }
 
-    console.log(req.params.racenumber);
-*/
     var data = {
-        title: 'Dashboard',
+        title: 'Import',
         user: req.user
     };
 
@@ -27,7 +25,11 @@ router.get('/', function(req, res)
 
 router.post('/', function(req, res)
 {
-    //console.log(JSON.stringify(req.body, null, 2));
+
+    if (!req.user || req.user.status !== 'ENABLED')
+    {
+        return res.redirect('/login');
+    }
 
     var data = {
         title: 'Dashboard',
@@ -53,35 +55,19 @@ router.post('/', function(req, res)
             Name: person["First Name"] + " " + person["Surname"]
         }
     })
-    
-    dynamoFuncs.populateStudentTable(data2, function(err){
-        if(err)
+
+    dynamoFuncs.populateStudentTable(data2, function(err)
+    {
+        if (err)
             res.send(err);
-        else{
-            dynamoFuncs.getAllStudents(function(err, data){
-                if(err){
-                    res.send(err);
-                }
-                else{
-                    res.send(data);
-                }
-            }) 
-            
+        else
+        {
+            res.redirect('/dashboard');
         }
     });
-
-    var grouped = _.groupBy(data2, function(person)
-    {
-        return person.Class;
-    });
-
-    //generator.createListPdf("2D", grouped["2D"], function(err){console.log("PDF WRITTEN");})
-
-    //console.log(JSON.stringify(data, null, 2));
-
-   
 });
 
+/*
 router.get('/testTable', function(req, res)
 {
     console.log("call");
@@ -91,5 +77,5 @@ router.get('/testTable', function(req, res)
 
     
 });
-
+*/
 module.exports = router;
