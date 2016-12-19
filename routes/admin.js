@@ -6,12 +6,12 @@ var _ = require("underscore");
 // Render the home page.
 router.get('/', function(req, res)
 {
-    /*
+    
     if (!req.user || req.user.status !== 'ENABLED')
     {
         return res.redirect('/login');
     }
-*/
+
     console.log(JSON.stringify(req.user, null, 2));
 
     studentInfo.initilize(function(err)
@@ -28,6 +28,11 @@ router.get('/', function(req, res)
 
 router.get('/resetrunners', function(req, res)
 {
+    if (!req.user || req.user.status !== 'ENABLED')
+    {
+        return res.redirect('/login');
+    }
+
     var retval = {
         code: "correct"
     }
@@ -38,6 +43,11 @@ router.get('/resetrunners', function(req, res)
 
 router.get('/resettags', function(req, res)
 {
+    if (!req.user || req.user.status !== 'ENABLED')
+    {
+        return res.redirect('/login');
+    }
+
     dynamoFuncs.refreshTagTable(function(err)
     {
 
@@ -58,6 +68,11 @@ router.get('/resettags', function(req, res)
 
 router.get('/resetboth', function(req, res)
 {
+
+    if (!req.user || req.user.status !== 'ENABLED')
+    {
+        return res.redirect('/login');
+    }
 
     dynamoFuncs.resetDataStore(function(err)
     {
@@ -80,6 +95,11 @@ router.get('/resetboth', function(req, res)
 router.get('/createfake', function(req, res)
 {
     console.log("CF Route");
+    if (!req.user || req.user.status !== 'ENABLED')
+    {
+        return res.redirect('/login');
+    }
+    
     studentInfo.fakeCheckinsMidRace(function(err)
     {
 
