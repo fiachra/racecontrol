@@ -13,10 +13,13 @@ var flash = require('connect-flash');
 
 var index_routes = require('./routes/index');
 var auth_routes = require('./routes/auth');
+var import_routes = require('./routes/import');
+var user_routes = require('./routes/users');
+var result_routes = require('./routes/results');
 
 var app = express();
 
-var strategy = new StormpathStrategy();
+var strategy = new StormpathStrategy({expansions: 'groups,groupMemberships'});
 passport.use(strategy);
 passport.serializeUser(strategy.serializeUser);
 passport.deserializeUser(strategy.deserializeUser);
@@ -45,6 +48,9 @@ app.use(flash());
 
 app.use('/', index_routes);
 app.use('/', auth_routes);
+app.use('/import', import_routes);
+app.use('/users', user_routes);
+app.use('/results',result_routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

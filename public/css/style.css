@@ -63,3 +63,73 @@ footer p img.lock {
   align: bottom !important;
   vertical-align: middle !important;
 }
+
+textarea {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    color: black;
+}
+
+tbody tr:nth-child(odd) {
+   background-color: #334558;
+}
+
+table.fixed {table-layout:fixed; width:600px;}/*Setting the table width is important!*/
+table.fixed td {
+  overflow:hidden;
+  width:300px;
+  height: 55px
+}/*Hide text outside the cell.*/
+
+.tableText {
+  text-align:center; 
+  vertical-align:middle;
+}
+.tableProps{
+  font-size:  20px;
+}
+
+/*----- Accordion -----*/
+.accordion, .accordion * {
+    -webkit-box-sizing:border-box; 
+    -moz-box-sizing:border-box; 
+    box-sizing:border-box;
+}
+ 
+.accordion {
+    overflow:hidden;
+    box-shadow:0px 1px 3px rgba(0,0,0,0.25);
+    border-radius:3px;
+    background:#f7f7f7;
+}
+ 
+/*----- Section Titles -----*/
+.accordion-section-title {
+    width:100%;
+    padding:15px;
+    display:inline-block;
+    border-bottom:1px solid #1a1a1a;
+    background:#333;
+    transition:all linear 0.15s;
+    /* Type */
+    font-size:1.200em;
+    text-shadow:0px 1px 0px #1a1a1a;
+    color:#fff;
+}
+ 
+.accordion-section-title.active {
+    background:#4c4c4c;
+    /* Type */
+    text-decoration:none;
+}
+ 
+.accordion-section:last-child .accordion-section-title {
+    border-bottom:none;
+}
+ 
+/*----- Section Content -----*/
+.accordion-section-content {
+    padding:15px;
+    display:none;
+}

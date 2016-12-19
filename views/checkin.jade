@@ -1,0 +1,18 @@
+extends layout
+ 
+block body
+ 
+  .dashboard
+    .row
+      .col-lg-12
+        .jumbotron
+          h1 Check-in Recorded
+          br
+          br
+          h2 You just Scanned a runner:
+          h3=student.name
+          p.
+            The Runners race number was: #{student.racenumber}
+      
+          br
+          br

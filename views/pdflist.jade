@@ -1,0 +1,20 @@
+extends layout
+ 
+block body
+  h1.tableText Race Tabards
+  form(role='form', id="importForm", action="/users/raceTabards",method="post")
+    .row
+      button.btn.btn-default.tableText(type='submit') Regenerate Tabards 
+  table.fixed.tableProps(align="center")
+    thead
+      tr
+        th.tableText Class Group
+        th.tableText File Name
+        th.tableText Download
+    tbody
+      each tabard in tabardFiles
+        tr
+          td.tableText=tabard.className
+          td.tableText=tabard.filename
+          td.tableText
+            a.btn.btn-default(href='#{tabard.url}') Download

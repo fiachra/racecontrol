@@ -1,0 +1,69 @@
+extends layout
+ 
+block body
+
+  h2 Race Results
+  
+  div.accordion
+    div.accordion-section
+      a.accordion-section-title(href="#accordion-1") Runs Completed
+        div.accordion-section-content(id="accordion-1")
+          table.tableProps(align="center")
+            thead
+              tr
+                th.tableText Student Name
+                th.tableText Race Number
+                th.tableText Start Time
+                th.tableText End Time
+                th.tableText Duration
+            tbody
+              each student in completed
+                tr
+                  td.tableText=student.name
+                  td.tableText=student.racenumber
+                  td.tableText=student.starttimestr
+                  td.tableText=student.endtimestr
+                  td.tableText=student.durationstr
+    div.accordion-section
+      a.accordion-section-title(href="#accordion-2") Runs In Progress
+        div.accordion-section-content(id="accordion-2")
+          table.fixed.tableProps(align="center")
+            thead
+              tr
+                th.tableText Student Name
+                th.tableText Race Number
+                th.tableText Start Time
+            tbody
+              each student in inProgress
+                tr
+                  td.tableText=student.name
+                  td.tableText=student.racenumber
+                  td.tableText=student.starttimestr
+    div.accordion-section
+      a.accordion-section-title(href="#accordion-3") Runs Not Started
+        div.accordion-section-content(id="accordion-3")
+          table.fixed.tableProps(align="center")
+            thead
+              tr
+                th.tableText Student Name
+                th.tableText Race Number
+            tbody
+              each student in notStarted
+                tr
+                  td.tableText=student.name
+                  td.tableText=student.racenumber
+    div.accordion-section
+      a.accordion-section-title(href="#accordion-4") Errors
+        div.accordion-section-content(id="accordion-4")
+          table.fixed.tableProps(align="center")
+            thead
+              tr
+                th.tableText Student Name
+                th.tableText Race Number
+            tbody
+              each student in errors
+                tr
+                  td.tableText=student.name
+                  td.tableText=student.racenumber
+
+  script(src='/js/resultsView.js')
