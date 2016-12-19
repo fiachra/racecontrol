@@ -10,23 +10,30 @@ block body
           th.tableText Status
       tbody
         tr
-          td.tableText Reset Runners
+          td.tableText Create Runners Table
           td.tableText
-            a.btn.btn-default(href="/" id="resetRunners") Reset
+            a.btn.btn-default(href="/" id="createRunners") Create
           td.tableText
-            p(id="resetRunnersStatus") Incomplete
+            p(id="createRunnersStatus") Incomplete
+         tr
+          td.tableText Create Tags Table
+          td.tableText
+            a.btn.btn-default(href="/" id="createTags") Create
+          td.tableText
+            p(id="createTagsStatus") Incomplete
         tr
-          td.tableText Reset Tags
+          td.tableText Delete Runners Table
           td.tableText
-            a.btn.btn-default(href="/" id="resetTags") Reset
+            a.btn.btn-default(href="/" id="deleteRunners") Delete
           td.tableText
-            p(id="resetTagsStatus") Incomplete
-        tr
-          td.tableText Reset Both
+            p(id="deleteRunnersStatus") Incomplete
+         tr
+          td.tableText Delete Tags Table
           td.tableText
-            a.btn.btn-default(href="/" id="resetBoth") Reset
+            a.btn.btn-default(href="/" id="deleteTags") Delete
           td.tableText
-            p(id="resetBothStatus") Incomplete
+            p(id="deleteTagsStatus") Incomplete
+        
         tr
           td.tableText Create Fake Tags
           td.tableText

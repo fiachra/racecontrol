@@ -2,100 +2,147 @@ $(function()
 {
     console.log("Results View");
 
-    $('#resetRunners').click(function(e)
+    $('#createTags').click(function(e)
     {
         e.preventDefault();
         $.ajax(
         {
-            url: "http://localhost:3000/admin/test",
+            url: globals.siteurl + "/admin/createtagstable",
             type: "get",
             contentType: "application/json; charset=UTF-8",
             dataType: "json",
-            //data: dataset,
-            success: function(data)
+            xhrFields:
             {
-
-                if (data.code === "correct")
-                {
-                    $('#resetRunnersStatus').html("correct");
-                }
-                else
-                {
-                    $('#resetRunnersStatus').html("incorrect");
-                }
-
+                withCredentials: true
             },
-            error: function(data)
-            {
-                $('#resetRunnersStatus').html("failed");
-            }
-        });
-
-    });
-
-    $('#resetTags').click(function(e)
-    {
-        e.preventDefault();
-
-        $.ajax(
-        {
-            url: "http://localhost:3000/admin/resettags",
-            type: "get",
-            contentType: "application/json; charset=UTF-8",
-            dataType: "json",
             //data: dataset,
             success: function(data)
             {
 
                 if (data.code === "complete")
                 {
-                    $('#resetTagsStatus').html("complete");
+                    $('#createTagsStatus').html("correct");
                 }
                 else
                 {
-                    $('#resetTagsStatus').html("failed");
+                    $('#createTagsStatus').html("failed:" + data.code);
                 }
 
             },
             error: function(data)
             {
-                $('#resetTagsStatus').html("Call Failed");
+                $('#createTagsStatus').html("call Failed");
             }
         });
 
     });
 
-    $('#resetBoth').click(function(e)
+    $('#createRunners').click(function(e)
     {
         e.preventDefault();
-
         $.ajax(
         {
-            url: "http://localhost:3000/admin/resetboth",
+            url: globals.siteurl + "/admin/createrunnerstable",
             type: "get",
             contentType: "application/json; charset=UTF-8",
             dataType: "json",
+            xhrFields:
+            {
+                withCredentials: true
+            },
             //data: dataset,
             success: function(data)
             {
 
                 if (data.code === "complete")
                 {
-                    $('#resetBothStatus').html("complete");
+                    $('#createRunnersStatus').html("correct");
                 }
                 else
                 {
-                    $('#resetBothStatus').html("failed");
+                    $('#createRunnersStatus').html("failed:" + data.code);
                 }
 
             },
             error: function(data)
             {
-                $('#resetBothStatus').html("Call Failed");
+                $('#createRunnersStatus').html("call Failed");
             }
         });
 
     });
+
+    $('#deleteTags').click(function(e)
+    {
+        e.preventDefault();
+        $.ajax(
+        {
+            url: globals.siteurl + "/admin/deletetagstable",
+            type: "get",
+            contentType: "application/json; charset=UTF-8",
+            dataType: "json",
+            xhrFields:
+            {
+                withCredentials: true
+            },
+            //data: dataset,
+            success: function(data)
+            {
+
+                if (data.code === "complete")
+                {
+                    $('#deleteTagsStatus').html("correct");
+                }
+                else
+                {
+                    $('#deleteTagsStatus').html("failed:" + data.code);
+                }
+
+            },
+            error: function(data)
+            {
+                $('#deleteTagsStatus').html("call Failed");
+            }
+        });
+
+    });
+
+    $('#deleteRunners').click(function(e)
+    {
+        e.preventDefault();
+        $.ajax(
+        {
+            url: globals.siteurl + "/admin/deleterunnerstable",
+            type: "get",
+            contentType: "application/json; charset=UTF-8",
+            dataType: "json",
+            xhrFields:
+            {
+                withCredentials: true
+            },
+            //data: dataset,
+            success: function(data)
+            {
+
+                if (data.code === "complete")
+                {
+                    $('#deleteRunnersStatus').html("correct");
+                }
+                else
+                {
+                    $('#deleteRunnersStatus').html("failed:" + data.code);
+                }
+
+            },
+            error: function(data)
+            {
+                $('#deleteRunnersStatus').html("call Failed");
+            }
+        });
+
+    });
+
+    
 
     $('#createFake').click(function(e)
     {
@@ -103,7 +150,7 @@ $(function()
 
         $.ajax(
         {
-            url: "http://localhost:3000/admin/createfake",
+            url: globals.siteurl + "/admin/createfake",
             type: "get",
             contentType: "application/json; charset=UTF-8",
             dataType: "json",
@@ -117,7 +164,7 @@ $(function()
                 }
                 else
                 {
-                    $('#createFakeStatus').html("failed");
+                    $('#createFakeStatus').html("Failed:" + data.code);
                 }
 
             },

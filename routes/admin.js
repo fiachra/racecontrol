@@ -6,7 +6,7 @@ var _ = require("underscore");
 // Render the home page.
 router.get('/', function(req, res)
 {
-    
+
     if (!req.user || req.user.status !== 'ENABLED')
     {
         return res.redirect('/login');
@@ -26,71 +26,134 @@ router.get('/', function(req, res)
 
 });
 
-router.get('/resetrunners', function(req, res)
+router.get('/createtagstable', function(req, res)
 {
+    console.log("CF Route");
     if (!req.user || req.user.status !== 'ENABLED')
     {
+        console.log("Auth Failure");
         return res.redirect('/login');
     }
 
-    var retval = {
-        code: "correct"
-    }
-
-    res.send(JSON.stringify(retval));
-
-});
-
-router.get('/resettags', function(req, res)
-{
-    if (!req.user || req.user.status !== 'ENABLED')
-    {
-        return res.redirect('/login');
-    }
-
-    dynamoFuncs.refreshTagTable(function(err)
+    dynamoFuncs.createTimeTagTable(function(err)
     {
 
         if (err)
+        {
             res.send(JSON.stringify(
             {
-                code: "error"
+                code: "error",
+                error: err
             }));
+        }
         else
+        {
             res.send(JSON.stringify(
             {
                 code: "complete"
             }));
+        }
 
     });
 
 });
 
-router.get('/resetboth', function(req, res)
+router.get('/createrunnerstable', function(req, res)
 {
-
+    console.log("Runners Route");
     if (!req.user || req.user.status !== 'ENABLED')
     {
+        console.log("Auth Failure");
         return res.redirect('/login');
     }
 
-    dynamoFuncs.resetDataStore(function(err)
+    dynamoFuncs.createStudentsTable(function(err)
     {
 
         if (err)
+        {
             res.send(JSON.stringify(
             {
-                code: "error"
+                code: "error",
+                error: err
             }));
+        }
         else
+        {
             res.send(JSON.stringify(
             {
                 code: "complete"
             }));
+        }
 
     });
 
 });
+
+router.get('/deletetagstable', function(req, res)
+{
+    console.log("CF Route");
+    if (!req.user || req.user.status !== 'ENABLED')
+    {
+        console.log("Auth Failure");
+        return res.redirect('/login');
+    }
+
+    dynamoFuncs.deleteTable( dynamoFuncs.TimeTagTable, function(err)
+    {
+
+        if (err)
+        {
+            res.send(JSON.stringify(
+            {
+                code: "error",
+                error: err
+            }));
+        }
+        else
+        {
+            res.send(JSON.stringify(
+            {
+                code: "complete"
+            }));
+        }
+
+    });
+
+});
+
+router.get('/deleterunnerstable', function(req, res)
+{
+    console.log("Runners Route");
+    if (!req.user || req.user.status !== 'ENABLED')
+    {
+        console.log("Auth Failure");
+        return res.redirect('/login');
+    }
+
+    dynamoFuncs.deleteTable( dynamoFuncs.StudentsTableName, function(err)
+    {
+
+        if (err)
+        {
+            res.send(JSON.stringify(
+            {
+                code: "error",
+                error: err
+            }));
+        }
+        else
+        {
+            res.send(JSON.stringify(
+            {
+                code: "complete"
+            }));
+        }
+
+    });
+
+});
+
 
 router.get('/createfake', function(req, res)
 {
@@ -99,7 +162,7 @@ router.get('/createfake', function(req, res)
     {
         return res.redirect('/login');
     }
-    
+
     studentInfo.fakeCheckinsMidRace(function(err)
     {
 
