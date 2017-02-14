@@ -19,6 +19,7 @@ var result_routes = require('./routes/results');
 var admin_routes = require('./routes/admin');
 
 var app = express();
+app.locals.moment = require('moment');
 
 var strategy = new StormpathStrategy({expansions: 'groups,groupMemberships'});
 passport.use(strategy);

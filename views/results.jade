@@ -18,7 +18,7 @@ block body
                 th.tableText Duration
             tbody
               each student in completed
-                tr
+                tr.viewer(id="#{student.racenumber}")
                   td.tableText=student.name
                   td.tableText=student.racenumber
                   td.tableText=student.starttimestr
@@ -35,7 +35,7 @@ block body
                 th.tableText Start Time
             tbody
               each student in inProgress
-                tr
+                tr.viewer(id="#{student.racenumber}")
                   td.tableText=student.name
                   td.tableText=student.racenumber
                   td.tableText=student.starttimestr
@@ -49,7 +49,7 @@ block body
                 th.tableText Race Number
             tbody
               each student in notStarted
-                tr
+                tr.viewer(id="#{student.racenumber}")
                   td.tableText=student.name
                   td.tableText=student.racenumber
     div.accordion-section
@@ -62,7 +62,7 @@ block body
                 th.tableText Race Number
             tbody
               each student in errors
-                tr
+                tr.viewer(id="#{student.racenumber}")
                   td.tableText=student.name
                   td.tableText=student.racenumber
 

@@ -1,0 +1,25 @@
+extends layout
+
+block body
+  .container
+    h2 Name: #{runner.name}
+    h2 Class: #{runner.class}
+    h2 Race Number: #{runner.racenumber}
+    h2 Tags
+    if(runner.tags.length > 0)
+      table.fixed.tableProps(align="center")
+        thead
+          tr
+            th.tableText Time
+            th.tableText Teacher
+            th.tableText Action
+        tbody
+          -var index = 0
+          each tag in runner.tags
+            tr
+              td.tableText #{moment(new Date(tag.time)).format("LTS")}
+              td.tableText=tag.teacher
+              td.tableText
+                a.btn.bet-default(id="item-#{index++}" class="delTagBtn") Delete
+    else
+      h3.userText No Tags

@@ -30,4 +30,15 @@ $(function()
         e.preventDefault();
     });
 
+
+    $('.viewer').click(function(e)
+    {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("row Clicked " + this.id);
+
+        window.location.href = '/users/'+this.id;
+    });
+    
+
 });

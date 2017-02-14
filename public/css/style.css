@@ -83,7 +83,10 @@ table.fixed td {
   height: 60px
 }
 
-
+.userText {
+  text-align:center; 
+  vertical-align:middle;
+}
 
 .tableText {
   text-align:center; 
