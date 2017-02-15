@@ -35,8 +35,8 @@ router.get('/', function(req, res)
         if(groups["Not Started"])
             notStarted = groups["Not Started"];
 
-        if(groups["Errors"])
-            errors = groups["Errors"];
+        if(groups["Error"])
+            errors = groups["Error"];
 
 
         res.render('results',
