@@ -16,8 +16,7 @@ export EXPRESS_SECRET=xxx
 export AWS_ACCESS_KEY=xxxxxx
 export AWS_SECRET_KEY=xxxxxx
 ```
-The same will probably for for 
-IAM keys when I get it done. Once you create the file you need to run
+Once you create the file you need to run
 
 ```sh
 source .env
