@@ -4,3 +4,7 @@ node_modules/
 public/files/
 README.html
 students.csv
+verification/
+pouchdb/
+certs/
+.vscode/

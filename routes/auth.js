@@ -1,108 +1,79 @@
-var express = require('express');
-var router = express.Router();
-var passport = require('passport');
-var stormpath = require('stormpath');
+var express = require('express')
+var router = express.Router()
+var passport = require('passport')
+var db = require('../db')
 
 // Render the registration page.
-router.get('/register', function(req, res)
-{
-    if (!req.user || req.user.status !== 'ENABLED')
-    {
-        return res.redirect('/login');
-    }
+router.get('/register', function(req, res) {
+  if (!req.user || req.user.status !== 'ENABLED') {
+    return res.redirect('/login')
+  }
 
-    res.render('register',
+  res.render('register',
     {
-        title: 'Register',
-        error: req.flash('error')[0]
-    });
-});
+      title: 'Register',
+      error: req.flash('error')[0]
+    })
+})
 
 // Register a new user to Stormpath.
-router.post('/register', function(req, res)
-{
-    if (!req.user || req.user.status !== 'ENABLED')
-    {
-        return res.redirect('/login');
-    }
-   
-    var username = req.body.username;
-    var password = req.body.password;
+router.post('/register', function(req, res) {
+  // if (!req.user || req.user.status !== 'ENABLED')
+  // {
+  //     return res.redirect('/login');
+  // }
 
-    // Grab user fields.
-    if (!username || !password)
-    {
-        return res.render('register',
-        {
-            title: 'Register',
-            error: 'Email and password required.'
-        });
-    }
+  var username = req.body.username
+  var password = req.body.password
 
-    // Initialize our Stormpath client.
-    var apiKey = new stormpath.ApiKey(
-        process.env['STORMPATH_API_KEY_ID'],
-        process.env['STORMPATH_API_KEY_SECRET']
-    );
-    var spClient = new stormpath.Client(
-    {
-        apiKey: apiKey
-    });
+  // Grab user fields.
+  if (!username || !password) {
+    return res.render('register',
+      {
+        title: 'Register',
+        error: 'Email and password required.'
+      })
+  }
 
-    // Grab our app, then attempt to create this user's account.
-    spClient.getApplication(process.env['STORMPATH_APP_HREF'], function(err, app)
-    {
-        if (err) throw err;
+  console.log('REGISTER!')
+  console.log(req.body)
 
-        app.createAccount(
-        {
-            givenName: 'John',
-            surname: 'Smith',
-            username: username,
-            email: username,
-            password: password,
-        }, function(err, createdAccount)
-        {
-            if (err)
-            {
-                return res.render('register',
-                {
-                    title: 'Register',
-                    error: err.userMessage
-                });
-            }
+  var user = {
+    displayName: req.body.name,
+    username: req.body.username,
+    password: req.body.password
+  }
 
-            passport.authenticate('stormpath')(req, res, function()
-            {
-                return res.redirect('/dashboard');
-            });
-        });
-    });
-});
+  // FIXME: rename to users
+  // use post to auto-assign an _id
+  db.people.post(user, function callback(err, result) {
+    console.log(err)
+    console.log(result)
+
+  })
+})
 
 // Render the login page.
-router.get('/login', function(req, res)
-{
-    res.render('login',
+router.get('/login', function(req, res) {
+  res.render('login',
     {
-        title: 'Login',
-        error: req.flash('error')[0]
-    });
-});
+      title: 'Login',
+      error: req.flash('error')[0]
+    })
+})
 
 // Authenticate a user.
-router.post('/login', passport.authenticate('stormpath',
-{
+router.post('/login', passport.authenticate('local',
+  {
     successRedirect: '/dashboard',
     failureRedirect: '/login',
     failureFlash: 'Invalid email or password.'
-}));
+  }))
 
 // Logout the user, then redirect to the home page.
-router.get('/logout', function(req, res)
-{
-    req.logout();
-    res.redirect('/');
-});
+router.get('/logout', function(req, res) {
+  req.logout()
+  res.redirect('/')
+})
 
-module.exports = router;
+module.exports = router
