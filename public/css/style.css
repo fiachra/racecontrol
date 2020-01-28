@@ -92,6 +92,13 @@ table.fixed td {
   text-align:center; 
   vertical-align:middle;
 }
+
+.tableSvg{
+  text-align:center; 
+  vertical-align:middle;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
 .tableProps{
   font-size:  20px;
 }

@@ -1,15 +1,25 @@
-var express = require('express')
-var router = express.Router()
-var csvjson = require('csvjson')
-var _ = require('underscore')
-var generator = require('../lib/qr-generator')
-var dynamoFuncs = require('../lib/dynamo')
+const express = require('express')
+const router = express.Router()
+const _ = require('underscore')
+const RaceData = require('../lib/RaceData')
+const csvParse = require('csv-parse')
+const csvParseProm = (data, options = {}) => {
+  return new Promise(function(resolve, reject) {
+    csvParse(data, options, function(err, output) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(output)
+      }
+    })
+  })
+}
 
 router.get('/', function(req, res) {
 
-  if (!req.isAuthenticated()) {
-    return res.redirect('/login')
-  }
+  // if (!req.isAuthenticated()) {
+  //   return res.redirect('/login')
+  // }
 
   var data = {
     title: 'Import',
@@ -19,40 +29,40 @@ router.get('/', function(req, res) {
   res.render('studentimport', data)
 })
 
-router.post('/', function(req, res) {
+router.post('/', async(req, res) => {
 
-  if (!req.user || req.user.status !== 'ENABLED') {
-    return res.redirect('/login')
-  }
+  // if (!req.user || req.user.status !== 'ENABLED') {
+  //   return res.redirect('/login')
+  // }
 
-  var data = {
-    title: 'Dashboard',
-    user: req.user
-  }
+  let data = await csvParseProm(req.body.studentData, { columns: true })
 
-  var options = {
-    delimiter: ','
-  }
-  var data = csvjson.toObject(req.body.studentData, options)
-  var count = 1
-  _.each(data, function(person) {
-    person.racenumber = count
-    count++
-  })
+  let valid = data.reduce((a, v) => {
+    return a && v.name && v.class
+  }, true)
 
-  var data2 = _.map(data, function(person) {
-    return {
-      Class: person.Class,
-      racenumber: person.racenumber,
-      Name: person['First Name'] + ' ' + person['Surname']
+  if (valid) {
+    try {
+      let result = await RaceData.RunnerModel.insertMany(data)
+      res.setHeader('Content-Type', 'application/json')
+      res.end(JSON.stringify(result))
+    } catch (err) {
+      console.log(err)
     }
-  })
+  }
 
-  dynamoFuncs.populateStudentTable(data2, function(err) {
-    if (err) { res.send(err) } else {
-      res.redirect('/dashboard')
-    }
-  })
+})
+
+router.delete('/allrunners', async(req, res) => {
+
+  // if (!req.user || req.user.status !== 'ENABLED') {
+  //   return res.redirect('/login')
+  // }
+
+  let result = await RaceData.RunnerModel.deleteMany()
+  res.setHeader('Content-Type', 'application/json')
+  res.end(JSON.stringify(result))
+
 })
 
 /*

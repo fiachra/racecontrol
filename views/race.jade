@@ -1,0 +1,105 @@
+extends layout
+style.
+  .fade.in {
+    display:block;
+  }
+  .fade {
+    display:none;
+  }
+block body
+
+  h2 Race Info
+  div
+    ul.nav.nav-tabs
+      li.nav-item
+        a.nav-link.active(data-toggle='tab', href='#home') Home
+      li.nav-item
+        a.nav-link(data-toggle='tab', href='#runners') Runners
+      li.nav-item
+        a.nav-link(data-toggle='tab', href='#results') Results
+
+    #myTabContent.tab-content
+      #home.tab-pane.fade.active.in
+        p
+          | Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
+      #runners.tab-pane.fade
+        div.accordion
+          each group, index in classes
+            div.accordion-section
+              a.accordion-section-title(href="#accordion-race-runners-#{index}") Class: #{group.name}
+                div.accordion-section-content(id="accordion-race-runners-#{index}")
+                  table.fixed.tableProps(align="center")
+                    thead
+                      tr
+                        th.tableText Student Name
+                        th.tableText Tag
+                    tbody
+                      each runner in group.runners
+                        tr
+                          td.tableText=runner.name
+                          td.tableSvg
+                            img(src='#{runner.imageURL}')
+      #results.tab-pane.fade.active
+        div.accordion
+          div.accordion-section
+            a.accordion-section-title(href="#accordion-1") Runs Completed
+              div.accordion-section-content(id="accordion-1")
+                table.fixed.tableProps(align="center")
+                  thead
+                    tr
+                      th.tableText Student Name
+                      th.tableText Race Number
+                      th.tableText Start Time
+                      th.tableText End Time
+                      th.tableText Duration
+                  tbody
+                    each student in completed
+                      tr.viewer(id="#{student._id}")
+                        td.tableText=student.name
+                        td.tableText=student._id
+                        td.tableText=student.startTime
+                        td.tableText=student.endTime
+                        td.tableText=student.duration
+          div.accordion-section
+            a.accordion-section-title(href="#accordion-2") Runs In Progress
+              div.accordion-section-content(id="accordion-2")
+                table.fixed.tableProps(align="center")
+                  thead
+                    tr
+                      th.tableText Student Name
+                      th.tableText Race Number
+                      th.tableText Start Time
+                  tbody
+                    each student in inProgress
+                      tr.viewer(id="#{student._id}")
+                        td.tableText=student.name
+                        td.tableText=student._id
+                        td.tableText=student.startTime
+          div.accordion-section
+            a.accordion-section-title(href="#accordion-3") Runs Not Started
+              div.accordion-section-content(id="accordion-3")
+                table.fixed.tableProps(align="center")
+                  thead
+                    tr
+                      th.tableText Student Name
+                      th.tableText Race Number
+                  tbody
+                    each student in notStarted
+                      tr.viewer(id="#{student._id}")
+                        td.tableText=student.name
+                        td.tableText=student._id
+          div.accordion-section
+            a.accordion-section-title(href="#accordion-4") Errors
+              div.accordion-section-content(id="accordion-4")
+                table.fixed.tableProps(align="center")
+                  thead
+                    tr
+                      th.tableText Student Name
+                      th.tableText Race Number
+                  tbody
+                    each student in errors
+                      tr.viewer(id="#{student._id}")
+                        td.tableText=student.name
+                        td.tableText=student._id
+
+  script(src='/js/resultsView.js')

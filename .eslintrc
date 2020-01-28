@@ -34,7 +34,6 @@
     "padded-blocks": ["warn", {"classes":"always"}],
     "semi": ["error", "never"],
     "space-before-function-paren": ["error", "never"],
-    "eol-last": 0,
-    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 1 }]
+    "eol-last": 0
   }
 }

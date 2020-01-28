@@ -3,49 +3,33 @@ var router = express.Router()
 var dynamoFuncs = require('../lib/dynamo')
 var studentInfo = require('../lib/studentInfoHolder')
 var _ = require('underscore')
+var runnerInfo = require('../lib/RunnerInfo')
+
 // Render the home page.
-router.get('/', function(req, res) {
+router.get('/', async(req, res) => {
 
   if (!req.isAuthenticated()) {
     return res.redirect('/login')
   }
 
-  studentInfo.initilize(function(err) {
-    if (err) {
-      console.log(err)
-    }
-    var groups = _.groupBy(studentInfo.students, function(student) { return student.status })
-    var completed = []
-    var inProgress = []
-    var notStarted = []
-    var errors = []
+  let raceId = '5e2d7c675fa14339bf1b8ba0'
 
-    if (groups['complete']) {
-      completed = groups['complete']
-      // completed = _.sortBy(completed, function(student){return student.tags[1].time;});
-      completed = _.sortBy(completed, function(student) { return student.durationMs })
-    }
+  await runnerInfo.updateForRaceID(raceId)
 
-    if (groups['running']) {
-      inProgress = groups['running']
-      inProgress = _.sortBy(inProgress, function(student) { return student.tags[0].time })
-    }
+  var completed = runnerInfo.runners.filter(v => v.status === 'Complete')
+  var inProgress = runnerInfo.runners.filter(v => v.status === 'Running')
+  var notStarted = runnerInfo.runners.filter(v => v.status === 'Not Started')
+  var errors = runnerInfo.runners.filter(v => v.status === 'Error')
 
-    if (groups['Not Started']) { notStarted = groups['Not Started'] }
-
-    if (groups['Error']) { errors = groups['Error'] }
-
-    res.render('results',
-      {
-        title: 'Dashboard',
-        user: req.user,
-        completed: completed,
-        inProgress: inProgress, // groups["running"],
-        notStarted: notStarted, // groups["Not Started"],
-        errors: errors // groups["Errors"]
-      })
-
-  })
+  res.render('results',
+    {
+      title: 'Dashboard',
+      user: req.user,
+      completed: completed,
+      inProgress: inProgress, // groups["running"],
+      notStarted: notStarted, // groups["Not Started"],
+      errors: errors // groups["Errors"]
+    })
 
 })
 

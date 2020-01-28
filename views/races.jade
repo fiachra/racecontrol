@@ -1,0 +1,23 @@
+extends layout
+
+script.
+  function something() {
+    console.log(' something')
+  }
+
+block body
+  h1.tableText Race List
+    table.fixed.tableProps(align="center")
+      thead
+        tr
+          th.tableText Race Name
+          th.tableText Start Time
+          th.tableText Length (m)
+      tbody
+        each race in races
+          tr
+            td.tableText
+              a(href='/races/#{race._id}') #{race.name}
+            td.tableText=race.startTime
+            td.tableText=race.length
+  

@@ -1,9 +1,10 @@
-var express = require('express')
-var router = express.Router()
-var dynamoFuncs = require('../lib/dynamo')
-var studentInfo = require('../lib/studentInfoHolder')
+const express = require('express')
+const router = express.Router()
+const passport = require('passport')
+const Account = require('../models/UserAccount')
 
-// Render the home page.
+const studentInfo = require('../lib/studentInfoHolder')
+
 router.get('/', function(req, res) {
   res.render('index',
     {
@@ -12,10 +13,9 @@ router.get('/', function(req, res) {
     })
 })
 
-// Render the dashboard page.
 router.get('/dashboard', function(req, res) {
 
-  if (!req.isAuthenticated()) {
+  if (!req.user) {
     return res.redirect('/login')
   }
 
@@ -31,12 +31,11 @@ router.get('/dashboard', function(req, res) {
 
 })
 
-// Render the dashboard page.
 router.get('/scan', function(req, res) {
 
-  // if (!req.isAuthenticated()) {
-  //   return res.redirect('/login')
-  // }
+  if (!req.user) {
+    return res.redirect('/login')
+  }
 
   res.render('scan',
     {
@@ -46,13 +45,60 @@ router.get('/scan', function(req, res) {
 
 })
 
-router.get('/test', function(req, res) {
-  res.render('test',
-    {
-      title: 'Dashboard',
-      user: req.user
-    })
+// Auth routes
 
+// Render the registration page.
+router.get('/register', function(req, res) {
+  if (!req.user || req.user.role !== 'admin') {
+    return res.redirect('/')
+  }
+
+  res.render('register',
+    {
+      title: 'Register',
+      error: req.flash('error')[0]
+    })
+})
+
+router.post('/register', function(req, res, next) {
+  if (!req.user || req.user.role !== 'admin') {
+    return res.redirect('/')
+  }
+
+  console.log('registering user')
+  Account.register(new Account({ username: req.body.username, role: 'user' }), req.body.password, function(err) {
+    if (err) {
+      console.log('error while user register!', err)
+      return next(err)
+    }
+
+    console.log('user registered!')
+
+    res.redirect('/login')
+  })
+})
+
+// Render the login page.
+router.get('/login', function(req, res) {
+  res.render('login',
+    {
+      title: 'Login',
+      error: req.flash('error')[0]
+    })
+})
+
+// Authenticate a user.
+router.post('/login', passport.authenticate('local',
+  {
+    successRedirect: '/dashboard',
+    failureRedirect: '/login',
+    failureFlash: 'Invalid email or password.'
+  }))
+
+// Logout the user, then redirect to the home page.
+router.get('/logout', function(req, res) {
+  req.logout()
+  res.redirect('/')
 })
 
 module.exports = router

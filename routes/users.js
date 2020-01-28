@@ -4,20 +4,24 @@ var dynamoFuncs = require('../lib/dynamo')
 var _ = require('underscore')
 var generator = require('../lib/qr-generator')
 var studentInfo = require('../lib/studentInfoHolder')
+var runnerInfo = require('../lib/RunnerInfo')
 var classList
 var async = require('async')
 var moment = require('moment')
 
-router.get('/', function(req, res, next) {
-  if (!req.isAuthenticated()) {
-    return res.redirect('/login')
-  }
+router.get('/', async(req, res, next) => {
+  // if (!req.isAuthenticated()) {
+  //   return res.redirect('/login')
+  // }
 
-  res.render('userlist',
+  let raceId = '5e2d7c675fa14339bf1b8ba0'
+
+  await runnerInfo.updateForRaceID(raceId)
+
+  res.render('runnerlist',
     {
       title: 'Runner List',
-      user: req.user,
-      classes: studentInfo.studentsByClass
+      classes: runnerInfo.runnersByClass
     })
 
 })

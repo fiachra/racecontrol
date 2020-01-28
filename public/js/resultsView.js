@@ -1,44 +1,35 @@
-$(function()
-{
-    console.log("Results View");
+$(function() {
+  console.log('Results View')
 
-    function close_accordion_section()
-    {
-        $('.accordion .accordion-section-title').removeClass('active');
-        $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
+  function close_accordion_section() {
+    $('.accordion .accordion-section-title').removeClass('active')
+    $('.accordion .accordion-section-content').slideUp(300).removeClass('open')
+  }
+
+  $('.accordion-section-title').click(function(e) {
+    // Grab current anchor value
+    var currentAttrValue = $(this).attr('href')
+
+    if ($(e.target).is('.active')) {
+      close_accordion_section()
+    } else {
+      close_accordion_section()
+
+      // Add active class to section title
+      $(this).addClass('active')
+      // Open up the hidden content panel
+      $('.accordion ' + currentAttrValue).slideDown(300).addClass('open')
     }
 
-    $('.accordion-section-title').click(function(e)
-    {
-        // Grab current anchor value
-        var currentAttrValue = $(this).attr('href');
+    e.preventDefault()
+  })
 
-        if ($(e.target).is('.active'))
-        {
-            close_accordion_section();
-        }
-        else
-        {
-            close_accordion_section();
+  $('.viewer').click(function(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    console.log('row Clicked ' + this.id)
 
-            // Add active class to section title
-            $(this).addClass('active');
-            // Open up the hidden content panel
-            $('.accordion ' + currentAttrValue).slideDown(300).addClass('open');
-        }
+    window.location.href = '/users/' + this.id
+  })
 
-        e.preventDefault();
-    });
-
-
-    $('.viewer').click(function(e)
-    {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log("row Clicked " + this.id);
-
-        window.location.href = '/users/'+this.id;
-    });
-    
-
-});
+})

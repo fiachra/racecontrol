@@ -1,10 +1,11 @@
 extends layout
 
 block body
+
   .container
     h2 Name: #{runner.name}
     h2 Class: #{runner.class}
-    h2 Race Number: #{runner.racenumber}
+    h2 Race Number: #{runner._id}
     h2 Tags
     if(runner.tags.length > 0)
       table.fixed.tableProps(align="center")

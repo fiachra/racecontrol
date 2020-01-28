@@ -18,12 +18,12 @@ block body
                 th.tableText Duration
             tbody
               each student in completed
-                tr.viewer(id="#{student.racenumber}")
+                tr.viewer(id="#{student._id}")
                   td.tableText=student.name
-                  td.tableText=student.racenumber
-                  td.tableText=student.starttimestr
-                  td.tableText=student.endtimestr
-                  td.tableText=student.durationstr
+                  td.tableText=student._id
+                  td.tableText=student.startTime
+                  td.tableText=student.endTime
+                  td.tableText=student.duration
     div.accordion-section
       a.accordion-section-title(href="#accordion-2") Runs In Progress
         div.accordion-section-content(id="accordion-2")
@@ -35,10 +35,10 @@ block body
                 th.tableText Start Time
             tbody
               each student in inProgress
-                tr.viewer(id="#{student.racenumber}")
+                tr.viewer(id="#{student._id}")
                   td.tableText=student.name
-                  td.tableText=student.racenumber
-                  td.tableText=student.starttimestr
+                  td.tableText=student._id
+                  td.tableText=student.startTime
     div.accordion-section
       a.accordion-section-title(href="#accordion-3") Runs Not Started
         div.accordion-section-content(id="accordion-3")
@@ -49,9 +49,9 @@ block body
                 th.tableText Race Number
             tbody
               each student in notStarted
-                tr.viewer(id="#{student.racenumber}")
+                tr.viewer(id="#{student._id}")
                   td.tableText=student.name
-                  td.tableText=student.racenumber
+                  td.tableText=student._id
     div.accordion-section
       a.accordion-section-title(href="#accordion-4") Errors
         div.accordion-section-content(id="accordion-4")
@@ -62,8 +62,8 @@ block body
                 th.tableText Race Number
             tbody
               each student in errors
-                tr.viewer(id="#{student.racenumber}")
+                tr.viewer(id="#{student._id}")
                   td.tableText=student.name
-                  td.tableText=student.racenumber
+                  td.tableText=student._id
 
   script(src='/js/resultsView.js')

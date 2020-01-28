@@ -1,0 +1,42 @@
+extends layout
+style.
+  .fade.in {
+    display:block;
+  }
+  .fade {
+    display:none;
+  }
+block body
+
+  h2 Runner Lists
+  div
+    ul.nav.nav-tabs
+      li.nav-item
+        a.nav-link.active(data-toggle='tab', href='#home') Runners
+      li.nav-item
+        a.nav-link(data-toggle='tab', href='#import') Import
+      li.nav-item
+        a.nav-link(data-toggle='tab', href='#manage') Manage
+
+    #myTabContent.tab-content
+      #home.tab-pane.fade.active.in
+        div.accordion
+          each group, index in classes
+            div.accordion-section
+              a.accordion-section-title(href="#accordion-runners-#{index}") Class: #{group.name}
+                div.accordion-section-content(id="accordion-runners-#{index}")
+                  table.fixed.tableProps(align="center")
+                    thead
+                      tr
+                        th.tableText Student Name
+                    tbody
+                      each runner in group.runners
+                        tr
+                          td.tableText DATA
+      #import.tab-pane.fade.active
+        p
+            | Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
+      #manage.tab-pane.fade.active
+        p
+            | Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
+      

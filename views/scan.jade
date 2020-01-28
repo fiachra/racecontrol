@@ -2,13 +2,14 @@ extends layout
  
 block body
   h1.tableText Scan Codes
-  div(id="loadingMessage") 🎥 Unable to access video stream (please make sure you have a webcam enabled)
-  canvas(style="width: 100%;", id="canvas")
   div(id="output" hidden)
     div(id="outputMessage") No QR code detected.
     div( hidden)
-    h1 Data: 
+    h3 Scan: 
       span(id="outputData")
-  </div>
+
+  div(id="loadingMessage") 🎥 Unable to access video stream (please make sure you have a webcam enabled)
+  canvas(style="width: 100%; min-height:100px; max-height:50%", id="canvas")
+  
 
   script(src='/js/scanPageScript.js')  

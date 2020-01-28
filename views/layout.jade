@@ -23,21 +23,12 @@ html
           if user
             li
               a(href='/dashboard') Dashbaord
-            li.dropdown
-              a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
-                | Runners 
-                span.caret
-              ul.dropdown-menu(role='menu')
-                li
-                  a(href='/users') Runner Lists
-                li
-                  a(href='/users/raceTabards') Race Tabards
-            li
-              a(href='/results') Results
-            li
-              a(href='/import') Import
+            li  
+              a(href='/Runners') Runners
             li  
               a(href='/scan') Scan
+            li  
+              a(href='/races') Races
             li
               a(href='/logout') Logout
           else
