@@ -1,10 +1,5 @@
 extends layout
 
-script.
-  function something() {
-    console.log(' something')
-  }
-
 block body
   h1.tableText Race List
     table.fixed.tableProps(align="center")
@@ -18,6 +13,6 @@ block body
           tr
             td.tableText
               a(href='/races/#{race._id}') #{race.name}
-            td.tableText=race.startTime
+            td.tableText=race.startTimeStr
             td.tableText=race.length
   

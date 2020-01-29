@@ -20,6 +20,8 @@ block body
 
     #myTabContent.tab-content
       #home.tab-pane.fade.active.in
+        p
+          | This section is the list of people available for taking part in races
         div.accordion
           each group, index in classes
             div.accordion-section
@@ -32,11 +34,17 @@ block body
                     tbody
                       each runner in group.runners
                         tr
-                          td.tableText DATA
+                          td.tableText=runner.name
       #import.tab-pane.fade.active
         p
-            | Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
+          | Here you can paste the CSV of runners you want to add to the list. the CSV must be 2 columns with headings, "name" and "class" both in lower case. Student names must be unique
+        form(role='form', id="importForm", action="/import",method="post")
+          .row
+            textarea(name="studentData", rows="20", cols="100")
+          br
+          .row
+            button.btn.btn-default(type='submit') Process 
       #manage.tab-pane.fade.active
         p
             | Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
-      
+  script(src='/js/resultsView.js')

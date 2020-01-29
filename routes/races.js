@@ -4,6 +4,7 @@ const _ = require('underscore')
 var RaceData = require('../lib/RaceData')
 var runnerInfo = require('../lib/RunnerInfo')
 var qrGen = require('../lib/qr-generator')
+var moment = require('moment')
 
 router.get('/', async(req, res) => {
 
@@ -12,6 +13,10 @@ router.get('/', async(req, res) => {
   }
 
   let result = await RaceData.RaceModel.find()
+
+  result.forEach(v => {
+    v.startTimeStr = moment(v.startTime).format('MMM DD, hh:mma')
+  })
 
   res.render('races',
     {
@@ -31,6 +36,7 @@ router.get('/:id', async(req, res) => {
 
   await runnerInfo.updateForRaceID(race._id)
   await qrGen.createImages(runnerInfo)
+  await qrGen.createPDFs(runnerInfo, true)
 
   var completed = runnerInfo.runners.filter(v => v.status === 'Complete')
   var inProgress = runnerInfo.runners.filter(v => v.status === 'Running')
@@ -45,7 +51,8 @@ router.get('/:id', async(req, res) => {
       inProgress: inProgress, // groups["running"],
       notStarted: notStarted, // groups["Not Started"],
       errors: errors, // groups["Errors"]
-      classes: runnerInfo.runnersByClass
+      classes: runnerInfo.runnersByClass,
+      allRunnersPDF: runnerInfo.allRunnerPDF
     })
 
 })

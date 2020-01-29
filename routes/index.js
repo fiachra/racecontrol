@@ -1,9 +1,11 @@
 const express = require('express')
 const router = express.Router()
 const passport = require('passport')
+const moment = require('moment')
 const Account = require('../models/UserAccount')
-
-const studentInfo = require('../lib/studentInfoHolder')
+const Race = require('../models/Race')
+const Runner = require('../models/Runner')
+const Checkin = require('../models/Checkin')
 
 router.get('/', function(req, res) {
   res.render('index',
@@ -11,24 +13,6 @@ router.get('/', function(req, res) {
       title: 'Home',
       user: req.user
     })
-})
-
-router.get('/dashboard', function(req, res) {
-
-  if (!req.user) {
-    return res.redirect('/login')
-  }
-
-  studentInfo.initilize(function(err) {
-    console.log(err)
-    res.render('dashboard',
-      {
-        title: 'Dashboard',
-        user: req.user
-      })
-
-  })
-
 })
 
 router.get('/scan', function(req, res) {
@@ -90,7 +74,7 @@ router.get('/login', function(req, res) {
 // Authenticate a user.
 router.post('/login', passport.authenticate('local',
   {
-    successRedirect: '/dashboard',
+    successRedirect: '/',
     failureRedirect: '/login',
     failureFlash: 'Invalid email or password.'
   }))
@@ -99,6 +83,31 @@ router.post('/login', passport.authenticate('local',
 router.get('/logout', function(req, res) {
   req.logout()
   res.redirect('/')
+})
+
+// checkin route
+router.get('/checkin/race/:raceId/runner/:runnerId', async(req, res) => {
+
+  if (!req.user) {
+    return res.redirect('/login')
+  }
+
+  let race = await Race.findById(req.params.raceId)
+  let runner = await Runner.findById(req.params.runnerId)
+
+  if (race && runner) {
+    let checkin = new Checkin({ race: race._id, runner: runner._id })
+
+    runner.time = moment(checkin.time).format('LTS')
+    let ret = {
+      name: runner.name,
+      time: moment(checkin.time).format('LTS')
+    }
+
+    res.setHeader('Content-Type', 'application/json')
+    res.end(JSON.stringify(ret))
+  }
+
 })
 
 module.exports = router

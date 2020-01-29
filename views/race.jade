@@ -16,12 +16,14 @@ block body
       li.nav-item
         a.nav-link(data-toggle='tab', href='#runners') Runners
       li.nav-item
+        a.nav-link(data-toggle='tab', href='#bibs') Bibs
+      li.nav-item
         a.nav-link(data-toggle='tab', href='#results') Results
 
     #myTabContent.tab-content
       #home.tab-pane.fade.active.in
         p
-          | Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
+          | Here you can look at the ruinners and their specific race tags, download the race tag PDFs and view race results as them are available
       #runners.tab-pane.fade
         div.accordion
           each group, index in classes
@@ -38,8 +40,24 @@ block body
                         tr
                           td.tableText=runner.name
                           td.tableSvg
-                            img(src='#{runner.imageURL}')
-      #results.tab-pane.fade.active
+                            img.bgCol(src='#{runner.imageURL}')
+      #bibs.tab-pane.fade
+        table.fixed.tableProps(align="center")
+          thead
+            tr
+              th.tableText Class name
+              th.tableText PDF
+          tbody
+            tr
+              td.tableText All runners
+              td.tableText
+                a(href='#{allRunnersPDF}') Download
+            each group in classes
+              tr
+                td.tableText=group.name
+                td.tableText
+                  a(href='#{group.classPDF}') Download
+      #results.tab-pane.fade
         div.accordion
           div.accordion-section
             a.accordion-section-title(href="#accordion-1") Runs Completed

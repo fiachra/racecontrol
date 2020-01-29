@@ -6,6 +6,7 @@ var outputContainer = document.getElementById('output')
 var outputMessage = document.getElementById('outputMessage')
 var outputData = document.getElementById('outputData')
 var paused = false
+let baseURL = window.location.protocol + '//' + window.location.hostname
 
 function drawLine(begin, end, color) {
   canvas.beginPath()
@@ -54,7 +55,14 @@ function tick() {
     var code = jsQR(imageData.data, imageData.width, imageData.height, {
       inversionAttempts: 'dontInvert'
     })
-    if (code && !paused) {
+
+    if (code && code.data && code.data.indexOf(baseURL) !== -1 && !paused) {
+      console.log(window.location.href)
+      console.log(window.location.hostname)
+      console.log(window.location.protocol)
+
+      console.log()
+
       paused = true
       setTimeout(function() { paused = false }, 2000)
       drawLine(code.location.topLeftCorner, code.location.topRightCorner, '#FF3B58')
@@ -66,11 +74,9 @@ function tick() {
 
       request(code.data, function(text) {
         var data = JSON.parse(text)
-        var string = `${data.student.name} checked in at ${data.time}`
+        var string = `${data.name} checked in at ${data.time}`
         outputData.innerText = string
-        console.log(string)
       })
-      console.log(code.data)
     } else {
       // outputMessage.hidden = false
       // outputData.parentElement.hidden = true

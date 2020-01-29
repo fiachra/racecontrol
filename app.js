@@ -12,17 +12,16 @@ const passport = require('passport')
 const Strategy = require('passport-local').Strategy
 const session = require('express-session')
 const flash = require('connect-flash')
+const Account = require('./models/UserAccount')
 
 const index_routes = require('./routes/index')
-const import_routes = require('./routes/import')
-const user_routes = require('./routes/users')
-const result_routes = require('./routes/results')
 const admin_routes = require('./routes/admin')
 const race_routes = require('./routes/api/races')
 const runner_routes = require('./routes/api/runner')
 const checkin_routes = require('./routes/api/checkin')
 const races_routes = require('./routes/races')
 const runners_routes = require('./routes/runners')
+
 const filePath = path.join(__dirname, 'public/files')
 const images = path.join(filePath, 'images')
 const pdfs = path.join(filePath, 'pdfs')
@@ -38,7 +37,26 @@ if (!fs.existsSync(images)) {
 if (!fs.existsSync(pdfs)) {
   fs.mkdirSync(pdfs)
 }
-mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true })
+async function connectDB() {
+  await mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true })
+  let accounts = await Account.find()
+
+  if (accounts.length === 0) {
+    Account.register(new Account({
+      username: process.env.DEFAULT_USER,
+      name: process.env.DEFAULT_NAME,
+      role: 'admin'
+    }), process.env.DEFAULT_PASS, function(err) {
+      if (err) {
+        console.log('Error registering default User', err)
+      }
+      console.log('Default User Registered')
+    })
+  }
+
+}
+
+connectDB()
 
 const app = express()
 app.locals.moment = require('moment')
@@ -64,16 +82,12 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
 
-const Account = require('./models/UserAccount')
 passport.use(new Strategy(Account.authenticate()))
 
 passport.serializeUser(Account.serializeUser())
 passport.deserializeUser(Account.deserializeUser())
 
 app.use('/', index_routes)
-app.use('/import', import_routes)
-app.use('/users', user_routes)
-app.use('/results', result_routes)
 app.use('/admin', admin_routes)
 app.use('/api/races', race_routes)
 app.use('/api/runners', runner_routes)

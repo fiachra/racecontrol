@@ -10,18 +10,23 @@ block body
       Welcome to this race managment app. Here you can:
     ul
       li Add Students in bulk to the runners list
-      li Generate Race tabarads with QR Codes for easy Race start Finish tagging
+      li Generate Race bibs with QR Codes for easy Race start Finish tagging
       li View, manage and print results lists. 
     <br/>
     <br/>
-    h2 What is required to use this app
-    br
-    ul
-      li A login from Mrs. Matthews
-      li A QR scanning app, The following is recommended
-        ul
-          li
-            a(href="https://itunes.apple.com/ie/app/qr-scanner-free-code-reader/id948297363?mt=8") Apple
-          li
-            a(href="https://play.google.com/store/apps/details?id=com.kaspersky.qrscanner&hl=en") Android
-
+    if user
+      h2 Welcome #{user.name}
+      h3 What's next
+      ul
+        li If scanning runners you need to allow the browser on your phone to use the camera
+        li To start scanning, click Scan above or 
+          a(href='/scan') here
+        li You can manage runners and races from the menu above
+    else
+      h2 What is required to use this app
+      br
+      ul
+        li A login from Mrs. Matthews
+        li If scanning runners you need to allow the browser on your phone to use the camera
+        li if you have an account, click login above org just click 
+          a(href='/login') here
