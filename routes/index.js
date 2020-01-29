@@ -97,6 +97,7 @@ router.get('/checkin/race/:raceId/runner/:runnerId', async(req, res) => {
 
   if (race && runner) {
     let checkin = new Checkin({ race: race._id, runner: runner._id })
+    await checkin.save()
 
     runner.time = moment(checkin.time).format('LTS')
     let ret = {

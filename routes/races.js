@@ -36,7 +36,7 @@ router.get('/:id', async(req, res) => {
 
   await runnerInfo.updateForRaceID(race._id)
   await qrGen.createImages(runnerInfo)
-  await qrGen.createPDFs(runnerInfo, true)
+  await qrGen.createPDFs(runnerInfo)
 
   var completed = runnerInfo.runners.filter(v => v.status === 'Complete')
   var inProgress = runnerInfo.runners.filter(v => v.status === 'Running')
