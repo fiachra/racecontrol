@@ -15,6 +15,19 @@ html
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   body
+    script.
+      function spinnerShow () {
+        document.getElementById("spinner-front").classList.add("show");
+        document.getElementById("spinner-back").classList.add("show");
+      }
+      function spinnerHide () {
+        document.getElementById("spinner-front").classList.remove("show");
+        document.getElementById("spinner-back").classList.remove("show");
+      }
+    
+    div(id="spinner-front")
+      img(src="images/ajax-loader.gif")
+    div(id="spinner-back")
     .container
       .header
         ul.nav.nav-pills.pull-right

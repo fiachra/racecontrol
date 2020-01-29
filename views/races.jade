@@ -12,7 +12,7 @@ block body
         each race in races
           tr
             td.tableText
-              a(href='/races/#{race._id}') #{race.name}
+              a(href='/races/#{race._id}' onclick='spinnerShow()') #{race.name}
             td.tableText=race.startTimeStr
             td.tableText=race.length
   

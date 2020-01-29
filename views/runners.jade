@@ -7,6 +7,24 @@ style.
     display:none;
   }
 block body
+  script.
+    function deleteRunners() {
+      console.log('Working')
+      var xobj = new XMLHttpRequest()
+      // true parameter denotes asynchronous
+      spinnerShow()
+      xobj.open('DELETE', '/runners/allrunners', true)
+      xobj.onreadystatechange = function() {
+        if (xobj.readyState == 4 && xobj.status == '200') {
+          // This marks that the response has been successfully retrieved from the server
+          // Utilize callback
+          console.log(xobj.responseText)
+          window.location = '/runners'
+          //callback()
+        }
+      }
+      xobj.send(null)
+    }
 
   h2 Runner Lists
   div
@@ -35,16 +53,16 @@ block body
                       each runner in group.runners
                         tr
                           td.tableText=runner.name
-      #import.tab-pane.fade.active
+      #import.tab-pane.fade
         p
           | Here you can paste the CSV of runners you want to add to the list. the CSV must be 2 columns with headings, "name" and "class" both in lower case. Student names must be unique
-        form(role='form', id="importForm", action="/import",method="post")
+        form(role='form', id="importForm", action="/runners/import",method="post")
           .row
             textarea(name="studentData", rows="20", cols="100")
           br
           .row
             button.btn.btn-default(type='submit') Process 
-      #manage.tab-pane.fade.active
-        p
-            | Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
+      #manage.tab-pane.fade
+        button.btn.btn-default(onclick='deleteRunners()') Delete All Runners 
+        
   script(src='/js/resultsView.js')

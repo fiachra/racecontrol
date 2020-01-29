@@ -62,8 +62,7 @@ router.post('/import', async(req, res) => {
   if (valid) {
     try {
       let result = await RaceData.RunnerModel.insertMany(data)
-      res.setHeader('Content-Type', 'application/json')
-      res.end(JSON.stringify(result))
+      return res.redirect('/runners')
     } catch (err) {
       console.log(err)
     }
@@ -81,9 +80,11 @@ router.delete('/allrunners', async(req, res) => {
     return res.send('not an admin')
   }
 
-  let result = await RaceData.RunnerModel.deleteMany()
+  let runners = await RaceData.RunnerModel.deleteMany()
+  let checkins = await RaceData.CheckinModel.deleteMany()
+
   res.setHeader('Content-Type', 'application/json')
-  res.end(JSON.stringify(result))
+  res.end(JSON.stringify({ runners, checkins }))
 
 })
 
