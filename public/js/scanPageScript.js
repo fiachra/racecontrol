@@ -56,12 +56,7 @@ function tick() {
       inversionAttempts: 'dontInvert'
     })
 
-    if (code && code.data && code.data.indexOf(baseURL) !== -1 && !paused) {
-      console.log(window.location.href)
-      console.log(window.location.hostname)
-      console.log(window.location.protocol)
-
-      console.log()
+    if (code && !paused) {
 
       paused = true
       setTimeout(function() { paused = false }, 2000)
