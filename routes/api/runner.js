@@ -1,17 +1,19 @@
 const express = require('express')
 const router = express.Router()
 const _ = require('underscore')
-var RaceData = require('../../lib/RaceData')
+const RaceModel = require('../../models/Race')
+const RunnerModel = require('../../models/Runner')
+const CheckinModel = require('../../models/Checkin')
 
 router.post('/', async(req, res) => {
-  let result = await RaceData.RunnerModel.create(req.body)
+  let result = await RunnerModel.create(req.body)
 
   res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify(result))
 })
 
 router.get('/', async(req, res) => {
-  let result = await RaceData.RunnerModel.find()
+  let result = await RunnerModel.find()
 
   res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify(result.map(v => v._id)))
@@ -19,7 +21,7 @@ router.get('/', async(req, res) => {
 })
 
 router.get('/:id', async(req, res) => {
-  let result = await RaceData.RunnerModel.find(req.params.id)
+  let result = await RunnerModel.find(req.params.id)
 
   res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify(result))
@@ -27,7 +29,7 @@ router.get('/:id', async(req, res) => {
 })
 
 router.put('/', async(req, res) => {
-  let result = await RaceData.RunnerModel.findByIdAndUpdate(req.params.id, req.body)
+  let result = await RunnerModel.findByIdAndUpdate(req.params.id, req.body)
 
   res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify(result))
@@ -35,10 +37,11 @@ router.put('/', async(req, res) => {
 })
 
 router.delete('/:id', async(req, res) => {
-  let result = await RaceData.RunnerModel.findByIdAndDelete(req.params.id)
+  let tags = await CheckinModel.deleteMany({ runner: req.params.id })
+  let runner = await RunnerModel.findByIdAndDelete(req.params.id)
 
   res.setHeader('Content-Type', 'application/json')
-  res.end(JSON.stringify(result))
+  res.end(JSON.stringify({ tags, runner }))
 
 })
 

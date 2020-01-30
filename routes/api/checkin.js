@@ -1,19 +1,21 @@
 const express = require('express')
 const router = express.Router()
 const _ = require('underscore')
-const RaceData = require('../../lib/RaceData')
 const moment = require('moment')
-const Checkin = require('../../models/Checkin')
+
+const RaceModel = require('../../models/Race')
+const RunnerModel = require('../../models/Runner')
+const CheckinModel = require('../../models/Checkin')
 
 router.post('/', async(req, res) => {
-  let result = await Checkin.create(req.body)
+  let result = await CheckinModel.create(req.body)
 
   res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify(result))
 })
 
 router.get('/', async(req, res) => {
-  let result = await Checkin.find()
+  let result = await CheckinModel.find()
     .populate('race')
     .populate('runner')
 
@@ -23,8 +25,8 @@ router.get('/', async(req, res) => {
 })
 
 router.get('/fakecheckins', async(req, res) => {
-  let races = await RaceData.RaceModel.find()
-  let runners = await RaceData.RunnerModel.find()
+  let races = await RaceModel.find()
+  let runners = await RunnerModel.find()
 
   let raceId = races[0]._id
   let raceTimes = moment()
@@ -54,14 +56,14 @@ router.get('/fakecheckins', async(req, res) => {
 
   })
 
-  let result = await Checkin.insertMany(checkins)
+  let result = await CheckinModel.insertMany(checkins)
   res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify(result))
 
 })
 
 router.get('/:id', async(req, res) => {
-  let result = await Checkin.findOne({ _id: req.params.id })
+  let result = await CheckinModel.findOne({ _id: req.params.id })
     .populate('race')
     .populate('runner')
 
@@ -71,7 +73,7 @@ router.get('/:id', async(req, res) => {
 })
 
 router.put('/', async(req, res) => {
-  let result = await Checkin.findByIdAndUpdate(req.params.id, req.body)
+  let result = await CheckinModel.findByIdAndUpdate(req.params.id, req.body)
 
   res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify(result))
@@ -79,7 +81,7 @@ router.put('/', async(req, res) => {
 })
 
 router.delete('/:id', async(req, res) => {
-  let result = await Checkin.findByIdAndDelete(req.params.id)
+  let result = await CheckinModel.findByIdAndDelete(req.params.id)
 
   res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify(result))

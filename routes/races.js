@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const _ = require('underscore')
-var RaceData = require('../lib/RaceData')
-var runnerInfo = require('../lib/RunnerInfo')
-var qrGen = require('../lib/qr-generator')
-var moment = require('moment')
+const runnerInfo = require('../lib/RunnerInfo')
+const qrGen = require('../lib/qr-generator')
+const moment = require('moment')
+const RaceModel = require('../../models/Race')
 
 router.get('/', async(req, res) => {
 
@@ -12,7 +12,7 @@ router.get('/', async(req, res) => {
     return res.redirect('/login')
   }
 
-  let result = await RaceData.RaceModel.find()
+  let result = await RaceModel.find()
 
   result.forEach(v => {
     v.startTimeStr = moment(v.startTime).format('MMM DD, hh:mma')
@@ -28,7 +28,7 @@ router.get('/', async(req, res) => {
 })
 
 router.get('/:id', async(req, res) => {
-  let race = await RaceData.RaceModel.findById(req.params.id)
+  let race = await RaceModel.findById(req.params.id)
 
   if (!req.user) {
     return res.redirect('/login')

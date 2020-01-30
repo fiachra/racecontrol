@@ -1,6 +1,9 @@
-var express = require('express')
-var router = express.Router()
-const RaceData = require('../lib/RaceData')
+const express = require('express')
+const router = express.Router()
+
+const RunnerModel = require('../models/Runner')
+const CheckinModel = require('../models/Checkin')
+
 const csvParse = require('csv-parse')
 const csvParseProm = (data, options = {}) => {
   return new Promise(function(resolve, reject) {
@@ -19,7 +22,7 @@ router.get('/', async(req, res, next) => {
     return res.redirect('/login')
   }
 
-  let runners = await RaceData.RunnerModel.find()
+  let runners = await RunnerModel.find()
   let runnersByClass = runners.reduce((a, v) => {
 
     let runnerClass = a.find(c => c.name === v.class)
@@ -61,7 +64,7 @@ router.post('/import', async(req, res) => {
 
   if (valid) {
     try {
-      let result = await RaceData.RunnerModel.insertMany(data)
+      let result = await RunnerModel.insertMany(data)
       return res.redirect('/runners')
     } catch (err) {
       console.log(err)
@@ -80,8 +83,8 @@ router.delete('/allrunners', async(req, res) => {
     return res.send('not an admin')
   }
 
-  let runners = await RaceData.RunnerModel.deleteMany()
-  let checkins = await RaceData.CheckinModel.deleteMany()
+  let runners = await RunnerModel.deleteMany()
+  let checkins = await CheckinModel.deleteMany()
 
   res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify({ runners, checkins }))
