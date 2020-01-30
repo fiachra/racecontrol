@@ -15,6 +15,14 @@ router.get('/', function(req, res) {
     })
 })
 
+router.get('/test', function(req, res) {
+  res.render('test',
+    {
+      title: 'Test',
+      user: req.user
+    })
+})
+
 router.get('/scan', function(req, res) {
 
   if (!req.user) {
@@ -96,17 +104,27 @@ router.get('/checkin/race/:raceId/runner/:runnerId', async(req, res) => {
   let runner = await Runner.findById(req.params.runnerId)
 
   if (race && runner) {
-    let checkin = new Checkin({ race: race._id, runner: runner._id })
-    await checkin.save()
+    try {
+      let checkin = await Checkin.create({ race: race._id, runner: runner._id })
+      let ch = await Checkin.find()
 
-    runner.time = moment(checkin.time).format('LTS')
-    let ret = {
-      name: runner.name,
-      time: moment(checkin.time).format('LTS')
+      runner.time = moment(checkin.time).format('LTS')
+      let ret = {
+        name: runner.name,
+        time: moment(checkin.time).format('LTS'),
+        extra: {
+          checkin,
+          ch
+        }
+      }
+
+      res.setHeader('Content-Type', 'application/json')
+      res.end(JSON.stringify(ret))
+    } catch (err) {
+      res.setHeader('Content-Type', 'application/json')
+      res.end(JSON.stringify(err))
     }
 
-    res.setHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify(ret))
   }
 
 })

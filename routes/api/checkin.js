@@ -3,16 +3,17 @@ const router = express.Router()
 const _ = require('underscore')
 const RaceData = require('../../lib/RaceData')
 const moment = require('moment')
+const Checkin = require('../../models/Checkin')
 
 router.post('/', async(req, res) => {
-  let result = await RaceData.CheckinModel.create(req.body)
+  let result = await Checkin.create(req.body)
 
   res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify(result))
 })
 
 router.get('/', async(req, res) => {
-  let result = await RaceData.CheckinModel.find()
+  let result = await Checkin.find()
     .populate('race')
     .populate('runner')
 
@@ -53,14 +54,14 @@ router.get('/fakecheckins', async(req, res) => {
 
   })
 
-  let result = await RaceData.CheckinModel.insertMany(checkins)
+  let result = await Checkin.insertMany(checkins)
   res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify(result))
 
 })
 
 router.get('/:id', async(req, res) => {
-  let result = await RaceData.CheckinModel.findOne({ _id: req.params.id })
+  let result = await Checkin.findOne({ _id: req.params.id })
     .populate('race')
     .populate('runner')
 
@@ -70,7 +71,7 @@ router.get('/:id', async(req, res) => {
 })
 
 router.put('/', async(req, res) => {
-  let result = await RaceData.CheckinModel.findByIdAndUpdate(req.params.id, req.body)
+  let result = await Checkin.findByIdAndUpdate(req.params.id, req.body)
 
   res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify(result))
@@ -78,7 +79,7 @@ router.put('/', async(req, res) => {
 })
 
 router.delete('/:id', async(req, res) => {
-  let result = await RaceData.CheckinModel.findByIdAndDelete(req.params.id)
+  let result = await Checkin.findByIdAndDelete(req.params.id)
 
   res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify(result))

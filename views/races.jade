@@ -1,13 +1,27 @@
 extends layout
 
 block body
-  h1.tableText Race List
+  h1.tableText Races
+  h3.tableText Create Race
+    div(style="padding: 25px 5px;")
+      div.row
+        div.col-sm-3
+          input.form-control(type='text', id='rName', placeholder='Race Name')
+        div.col-sm-3
+          input.form-control(type='datetime-local', id='rTime', placeholder='Race Time')
+         div.col-sm-3
+          input.form-control(type='number', id='rLength', placeholder='length')
+        div.col-sm-3
+          a.btn.btn-default(href="/" onclick="event.preventDefault(); createRace()") Create
+
+    h3.tableText Race List
     table.fixed.tableProps(align="center")
       thead
         tr
           th.tableText Race Name
           th.tableText Start Time
           th.tableText Length (m)
+          th.tableText Action
       tbody
         each race in races
           tr
@@ -15,4 +29,33 @@ block body
               a(href='/races/#{race._id}' onclick='spinnerShow()') #{race.name}
             td.tableText=race.startTimeStr
             td.tableText=race.length
-  
+            td 
+              a.btn.btn-default(href="/" id="#{race._id}" onclick="event.preventDefault(); deleteRace('#{race._id}')") Delete
+  script.
+    function deleteRace(raceId) {
+      console.log('deleting ' + raceId)
+      webRequest('/api/races/' + raceId, 'delete', null, function success(res) {
+        console.log(JSON.stringify(res))
+        window.location = '/races'
+
+      }, function error(err) {
+        console.log(JSON.stringify(err))
+
+      })
+    }
+
+    function createRace() {
+      var name = document.getElementById("rName").value
+      var time = document.getElementById("rTime").value
+      var length = document.getElementById("rLength").value
+
+      if(name && time && length) {
+         console.log({name, time, length})
+         webRequest('/api/races/', 'post', {name, time, length}, function success(res) {
+            console.log(JSON.stringify(res))
+            window.location = '/races'
+          }, function error(err) {
+            console.log(JSON.stringify(err))
+          })
+      }
+    }

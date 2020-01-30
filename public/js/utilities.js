@@ -1,5 +1,17 @@
+
 $(function() {
-  console.log('Results View')
+  function webRequest(url, type, data, success, error) {
+    $.ajax(
+      {
+        url,
+        type,
+        contentType: 'application/json; charset=UTF-8',
+        dataType: 'json',
+        data,
+        success,
+        error
+      })
+  }
 
   function close_accordion_section() {
     $('.accordion .accordion-section-title').removeClass('active')

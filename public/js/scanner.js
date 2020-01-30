@@ -17,21 +17,6 @@ function drawLine(begin, end, color) {
   canvas.stroke()
 }
 
-function request(data, callback) {
-
-  var xobj = new XMLHttpRequest()
-  // true parameter denotes asynchronous
-  xobj.open('GET', data, true)
-  xobj.onreadystatechange = function() {
-    if (xobj.readyState == 4 && xobj.status == '200') {
-      // This marks that the response has been successfully retrieved from the server
-      // Utilize callback
-      callback(xobj.responseText)
-    }
-  }
-  xobj.send(null)
-}
-
 // Use facingMode: environment to attemt to get the front camera on phones
 navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
   .then(function(stream) {
@@ -67,7 +52,7 @@ function tick() {
       outputMessage.hidden = true
       outputData.parentElement.hidden = false
 
-      request(code.data, function(text) {
+      webRequest(code.data, 'GET', null, function(text) {
         var data = JSON.parse(text)
         var string = `${data.name} checked in at ${data.time}`
         outputData.innerText = string

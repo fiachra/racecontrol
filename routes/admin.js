@@ -5,17 +5,22 @@ var _ = require('underscore')
 // Render the home page.
 router.get('/', function(req, res) {
 
-  if (!req.user || req.user.status !== 'ENABLED') {
+  if (!req.user || req.user.role !== 'admin') {
     return res.redirect('/login')
   }
 
   console.log(JSON.stringify(req.user, null, 2))
+  res.render('admin',
+    {
+      title: 'Admin',
+      user: req.user
+    })
 
 })
 
 router.get('/createtagstable', function(req, res) {
   console.log('CF Route')
-  if (!req.user || req.user.status !== 'ENABLED') {
+  if (!req.user || req.user.role !== 'admin') {
     console.log('Auth Failure')
     return res.redirect('/login')
   }
@@ -41,7 +46,7 @@ router.get('/createtagstable', function(req, res) {
 
 router.get('/createrunnerstable', function(req, res) {
   console.log('Runners Route')
-  if (!req.user || req.user.status !== 'ENABLED') {
+  if (!req.user || req.user.role !== 'admin') {
     console.log('Auth Failure')
     return res.redirect('/login')
   }
@@ -67,7 +72,7 @@ router.get('/createrunnerstable', function(req, res) {
 
 router.get('/deletetagstable', function(req, res) {
   console.log('CF Route')
-  if (!req.user || req.user.status !== 'ENABLED') {
+  if (!req.user || req.user.role !== 'admin') {
     console.log('Auth Failure')
     return res.redirect('/login')
   }
@@ -93,7 +98,7 @@ router.get('/deletetagstable', function(req, res) {
 
 router.get('/deleterunnerstable', function(req, res) {
   console.log('Runners Route')
-  if (!req.user || req.user.status !== 'ENABLED') {
+  if (!req.user || req.user.role !== 'admin') {
     console.log('Auth Failure')
     return res.redirect('/login')
   }
@@ -119,7 +124,7 @@ router.get('/deleterunnerstable', function(req, res) {
 
 router.get('/createfake', function(req, res) {
   console.log('CF Route')
-  if (!req.user || req.user.status !== 'ENABLED') {
+  if (!req.user || req.user.role !== 'admin') {
     return res.redirect('/login')
   }
 })
