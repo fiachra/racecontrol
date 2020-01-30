@@ -4,7 +4,7 @@ const _ = require('underscore')
 const runnerInfo = require('../lib/RunnerInfo')
 const qrGen = require('../lib/qr-generator')
 const moment = require('moment')
-const RaceModel = require('../../models/Race')
+const RaceModel = require('../models/Race')
 
 router.get('/', async(req, res) => {
 
