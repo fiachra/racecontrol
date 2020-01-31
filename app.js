@@ -91,7 +91,7 @@ app.use('/', index_routes)
 app.use('/admin', admin_routes)
 app.use('/api/races', race_routes)
 app.use('/api/runners', runner_routes)
-app.use('/api/checkin', checkin_routes)
+app.use('/api/checkins', checkin_routes)
 app.use('/races', races_routes)
 app.use('/runners', runners_routes)
 

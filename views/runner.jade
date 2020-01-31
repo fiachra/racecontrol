@@ -20,6 +20,19 @@ block body
               td.tableText #{moment(tag.time).format("LTS")}
               td.tableText=tag.scanner
               td.tableText
-                a.btn.bet-default(id="item-#{index++}" class="delTagBtn") Delete
+                a.btn.bet-default(id="item-#{index++}" class="delTagBtn" onclick="event.preventDefault(); deleteTag('#{tag._id}')") Delete
     else
       h3.userText No Tags
+  script.
+    function deleteTag(tagId) {
+      console.log(tagId)
+
+       webRequest('/api/checkins/' + tagId, 'delete', null, function success(res) {
+            console.log(JSON.stringify(res))
+            window.location = '/races'
+            window.location = window.location.href
+          }, function error(err) {
+            console.log(JSON.stringify(err))
+          })
+
+    }

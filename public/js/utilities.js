@@ -32,5 +32,4 @@ $(function() {
 
     window.location = path
   })
-
 })
