@@ -1,18 +1,5 @@
 
 $(function() {
-  function webRequest(url, type, data, success, error) {
-    $.ajax(
-      {
-        url,
-        type,
-        contentType: 'application/json; charset=UTF-8',
-        dataType: 'json',
-        data,
-        success,
-        error
-      })
-  }
-
   function close_accordion_section() {
     $('.accordion .accordion-section-title').removeClass('active')
     $('.accordion .accordion-section-content').slideUp(300).removeClass('open')
@@ -36,12 +23,14 @@ $(function() {
     e.preventDefault()
   })
 
-  $('.viewer').click(function(e) {
+  $('.runnerresults').click(function(e) {
     e.preventDefault()
     e.stopPropagation()
-    console.log('row Clicked ' + this.id)
 
-    window.location.href = '/users/' + this.id
+    let path = window.location.href + '/runner/' + this.id
+    console.log('row Clicked ' + path)
+
+    window.location = path
   })
 
 })

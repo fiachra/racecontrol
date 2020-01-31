@@ -9,41 +9,34 @@ html
     link(href='/css/style.css', rel='stylesheet')
     script(src='/js/jsQR.js')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js')
+    script(src='/js/utilities.js')
     <!--[if lt IE 9 ]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   body
     script.
-      function spinnerShow () {
-        document.getElementById("spinner-front").classList.add("show");
-        document.getElementById("spinner-back").classList.add("show");
+      function webRequest(url, type, data, success, error) {
+        $.ajax(
+          {
+            url,
+            type,
+            contentType: 'application/json; charset=UTF-8',
+            dataType: 'json',
+            data,
+            success,
+            error
+          })
       }
-      function spinnerHide () {
-        document.getElementById("spinner-front").classList.remove("show");
-        document.getElementById("spinner-back").classList.remove("show");
-      }
-      function webRequest(url, method, data, callback) {
 
-        var xobj = new XMLHttpRequest()
-        // true parameter denotes asynchronous
-        xobj.open(method, url, true)
-        xobj.setRequestHeader('Content-type', 'application/json')
-        xobj.onreadystatechange = function() {
-          if (xobj.readyState == 4 && xobj.status == '200') {
-            // This marks that the response has been successfully retrieved from the server
-            // Utilize callback
-            callback(xobj.responseText)
-          }
-        }
-        
-        if (data) {
-          data = JSON.stringify(data)
-        }
-
-        xobj.send(data)
+      function spinnerShow() {
+        document.getElementById('spinner-front').classList.add('show')
+        document.getElementById('spinner-back').classList.add('show')
       }
-    
+      function spinnerHide() {
+        document.getElementById('spinner-front').classList.remove('show')
+        document.getElementById('spinner-back').classList.remove('show')
+      }    
     div(id="spinner-front")
       img(src="/images/ajax-loader.gif")
     div(id="spinner-back")
@@ -68,4 +61,4 @@ html
       block body
     
     script(src='/js/bootstrap.min.js')
-    script(src='/js/utilities.js')
+    

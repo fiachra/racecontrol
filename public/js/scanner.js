@@ -52,10 +52,12 @@ function tick() {
       outputMessage.hidden = true
       outputData.parentElement.hidden = false
 
-      webRequest(code.data, 'GET', null, function(text) {
-        var data = JSON.parse(text)
-        var string = `${data.name} checked in at ${data.time}`
-        outputData.innerText = string
+      webRequest(code.data, 'get', null, function success(res) {
+        outputData.innerText = `${res.name} checked in at ${res.time}`
+      }, function error(err) {
+        outputData.innerText = `${err.responseJSON.error}`
+        window.location = '/login'
+
       })
     } else {
       // outputMessage.hidden = false

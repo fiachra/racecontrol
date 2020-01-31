@@ -97,7 +97,7 @@ router.get('/logout', function(req, res) {
 router.get('/checkin/race/:raceId/runner/:runnerId', async(req, res) => {
 
   if (!req.user) {
-    return res.redirect('/login')
+    return res.status(500).send({ error: 'Not logged in' })
   }
 
   let race = await Race.findById(req.params.raceId)
@@ -105,7 +105,7 @@ router.get('/checkin/race/:raceId/runner/:runnerId', async(req, res) => {
 
   if (race && runner) {
     try {
-      let checkin = await Checkin.create({ race: race._id, runner: runner._id })
+      let checkin = await Checkin.create({ race: race._id, scanner: req.user.name, runner: runner._id })
       let ch = await Checkin.find()
 
       runner.time = moment(checkin.time).format('LTS')
@@ -124,9 +124,7 @@ router.get('/checkin/race/:raceId/runner/:runnerId', async(req, res) => {
       res.setHeader('Content-Type', 'application/json')
       res.end(JSON.stringify(err))
     }
-
   }
-
 })
 
 module.exports = router

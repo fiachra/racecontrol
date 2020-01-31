@@ -8,6 +8,11 @@ const RunnerModel = require('../../models/Runner')
 const CheckinModel = require('../../models/Checkin')
 
 router.post('/', async(req, res) => {
+
+  if (!req.user) {
+    return res.status(500).send({ error: 'Not logged in' })
+  }
+
   let result = await CheckinModel.create(req.body)
 
   res.setHeader('Content-Type', 'application/json')
@@ -15,6 +20,11 @@ router.post('/', async(req, res) => {
 })
 
 router.get('/', async(req, res) => {
+
+  if (!req.user) {
+    return res.status(500).send({ error: 'Not logged in' })
+  }
+
   let result = await CheckinModel.find()
     .populate('race')
     .populate('runner')
@@ -25,6 +35,11 @@ router.get('/', async(req, res) => {
 })
 
 router.get('/fakecheckins', async(req, res) => {
+
+  if (!req.user) {
+    return res.status(500).send({ error: 'Not logged in' })
+  }
+
   let races = await RaceModel.find()
   let runners = await RunnerModel.find()
 
@@ -63,6 +78,11 @@ router.get('/fakecheckins', async(req, res) => {
 })
 
 router.get('/:id', async(req, res) => {
+
+  if (!req.user) {
+    return res.status(500).send({ error: 'Not logged in' })
+  }
+
   let result = await CheckinModel.findOne({ _id: req.params.id })
     .populate('race')
     .populate('runner')
@@ -73,6 +93,11 @@ router.get('/:id', async(req, res) => {
 })
 
 router.put('/', async(req, res) => {
+
+  if (!req.user) {
+    return res.status(500).send({ error: 'Not logged in' })
+  }
+
   let result = await CheckinModel.findByIdAndUpdate(req.params.id, req.body)
 
   res.setHeader('Content-Type', 'application/json')
@@ -81,6 +106,11 @@ router.put('/', async(req, res) => {
 })
 
 router.delete('/:id', async(req, res) => {
+
+  if (!req.user) {
+    return res.status(500).send({ error: 'Not logged in' })
+  }
+
   let result = await CheckinModel.findByIdAndDelete(req.params.id)
 
   res.setHeader('Content-Type', 'application/json')

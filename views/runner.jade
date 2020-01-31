@@ -5,7 +5,6 @@ block body
   .container
     h2 Name: #{runner.name}
     h2 Class: #{runner.class}
-    h2 Race Number: #{runner._id}
     h2 Tags
     if(runner.tags.length > 0)
       table.fixed.tableProps(align="center")
@@ -18,8 +17,8 @@ block body
           -var index = 0
           each tag in runner.tags
             tr
-              td.tableText #{moment(new Date(tag.time)).format("LTS")}
-              td.tableText=tag.teacher
+              td.tableText #{moment(tag.time).format("LTS")}
+              td.tableText=tag.scanner
               td.tableText
                 a.btn.bet-default(id="item-#{index++}" class="delTagBtn") Delete
     else
