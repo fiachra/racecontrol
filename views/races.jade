@@ -51,7 +51,7 @@ block body
 
       if(name && time && length) {
          console.log({name, time, length})
-         webRequest('/api/races/', 'post', {name, time, length}, function success(res) {
+         webRequest('/api/races/', 'post', JSON.stringify({name, time, length}), function success(res) {
             console.log(JSON.stringify(res))
             window.location = '/races'
           }, function error(err) {

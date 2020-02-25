@@ -46,6 +46,8 @@ router.get('/:id', async(req, res) => {
   var notStarted = runnerInfo.runners.filter(v => v.status === 'Not Started')
   var errors = runnerInfo.runners.filter(v => v.status === 'Error')
 
+  completed.sort((a, b) => a.timeMilli - b.timeMilli)
+
   res.render('race',
     {
       title: 'Race Results',

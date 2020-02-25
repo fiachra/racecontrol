@@ -41,6 +41,7 @@ router.get('/', async(req, res, next) => {
     return a
   }, [])
 
+  runnersByClass.sort((a, b) => a.name.localeCompare(b.name))
   res.render('runners',
     {
       title: 'Runner List',
