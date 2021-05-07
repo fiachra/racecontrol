@@ -32,7 +32,7 @@
     "serve-favicon": "^2.3.2",
     "static-favicon": "^1.0.2",
     "stylus": "^0.42.3",
-    "underscore": "^1.9.2",
+    "underscore": "^1.12.1",
     "xml2js": "^0.4.23"
   }
 }
