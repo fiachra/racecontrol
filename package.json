@@ -31,7 +31,7 @@
     "qr-image": "^3.2.0",
     "serve-favicon": "^2.3.2",
     "static-favicon": "^1.0.2",
-    "stylus": "^0.42.3",
+    "stylus": "^0.59.0",
     "underscore": "^1.9.2",
     "xml2js": "^0.4.23"
   }
